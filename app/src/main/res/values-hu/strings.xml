@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pi</string>
+    <string name="OK">OK</string>
+    <string name="Score">Pontszám</string>
+    <string name="decimal_reached">Elért tizedesjegy: %1$d</string>
+    <string name="digit_info">A lenyomott gomb a \'%1$s\' volt, a helyes tizedesjegy pedig \'%2$s\'</string>
+    <string name="high_scores">Toplista</string>
+    <string name="next_digits">A következő %1$d számjegy: %2$s</string>
+    <string name="progress">Elért tizedesjegy:</string>
+</resources>

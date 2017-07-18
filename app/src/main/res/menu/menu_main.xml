@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="co.zsmb.pi.MainActivity">
+    <item
+        android:id="@+id/action_high_scores"
+        android:orderInCategory="100"
+        android:title="@string/high_scores"
+        app:showAsAction="never" />
+</menu>
