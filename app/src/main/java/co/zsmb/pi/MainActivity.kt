@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     private val digitsToShow = 10
     private val pi: String by lazy(NONE) { getString(R.string.pi) }
 
-    private var dialogVisible = false
     private var indexReached = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,24 +33,20 @@ class MainActivity : AppCompatActivity() {
         resetState(restoreIndex)
     }
 
-    private fun setupButtons(): Unit {
-        btn0.onClick { inputDigit('0') }
-        btn1.onClick { inputDigit('1') }
-        btn2.onClick { inputDigit('2') }
-        btn3.onClick { inputDigit('3') }
-        btn4.onClick { inputDigit('4') }
-        btn5.onClick { inputDigit('5') }
-        btn6.onClick { inputDigit('6') }
-        btn7.onClick { inputDigit('7') }
-        btn8.onClick { inputDigit('8') }
-        btn9.onClick { inputDigit('9') }
+    private fun Int.toCharValue() = this.toChar() + '0'.toInt()
+
+    private fun setupButtons() {
+        val buttons = arrayOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
+        buttons.forEachIndexed { index, button ->
+            button.onClick { inputDigit(index.toCharValue()) }
+        }
     }
 
     private fun inputDigit(digit: Char) {
         val indexToTest = indexReached + 1
         val correctDigit = pi[indexToTest]
 
-        if (pi[indexToTest] == digit) {
+        if (digit == correctDigit) {
             indexReached++
             tvPi.append(digit.toString())
             tvDigitCount.text = indexReached.toString()
@@ -66,12 +61,10 @@ class MainActivity : AppCompatActivity() {
         tvDigitCount.text = currentIndex.toString()
         val piText = "3" + pi.substring(0, currentIndex + 1)
         tvPi.text = piText
-
-        dialogVisible = false
     }
 
     private fun gameOver(digit: Char, correctDigit: Char) {
-        ScoreKeeper.addScore(indexReached)
+        ScoreKeeper.logScore(indexReached)
 
         alert {
             customView {
@@ -99,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
         }.show()
 
-        dialogVisible = true
+        indexReached = 0
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -111,14 +104,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_high_scores -> startActivity(Intent(this, HighScoreActivity::class.java))
         }
-
         return super.onOptionsItemSelected(item)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        if (!dialogVisible) {
-            outState?.putInt(KEY_INDEX_REACHED, indexReached)
-        }
+        outState?.putInt(KEY_INDEX_REACHED, indexReached)
         super.onSaveInstanceState(outState)
     }
 

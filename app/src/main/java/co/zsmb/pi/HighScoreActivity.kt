@@ -20,32 +20,25 @@ class HighScoreActivity : AppCompatActivity() {
             tableLayout {
                 tableRow {
                     horizontalGravity = Gravity.CENTER
-
-                    textView("# ") {
-                        padding = dip(4)
-                        textSize = 20f
-                    }
-                    textView(context.getString(R.string.Score)) {
-                        padding = dip(4)
-                        textSize = 20f
-                    }
+                    cell("# ")
+                    cell(getString(R.string.Score))
                 }
 
-                for (i in ScoreKeeper.scores.indices) {
+                ScoreKeeper.scores.forEachIndexed { index, score ->
                     tableRow {
                         horizontalGravity = Gravity.CENTER
-
-                        textView("${i + 1}.") {
-                            padding = dip(4)
-                            textSize = 20f
-                        }
-                        textView("${ScoreKeeper.scores[i]}") {
-                            padding = dip(4)
-                            textSize = 20f
-                        }
+                        cell("${index + 1}.")
+                        cell(score.toString())
                     }
                 }
             }
+        }
+    }
+
+    private fun _TableRow.cell(text: String) {
+        textView(text) {
+            padding = dip(4)
+            textSize = 20f
         }
     }
 

@@ -7,72 +7,50 @@ import java.util.*
 
 object ScoreKeeper {
 
-    private val max = 10
-    private val fileName = "scores.txt"
+    private const val MAX_SCORES = 10
+    private const val FILENAME = "scores.txt"
 
     private var context: Context? = null
-    private val list: MutableList<Int>
 
-    val scores: IntArray
-        get() = list.toIntArray()
-
-    init {
-        list = mutableListOf<Int>()
-    }
+    val scores = mutableListOf<Int>()
 
     fun setContext(context: Context) {
         this.context = context
         loadList()
     }
 
-    private fun logScore(score: Int) {
-        list.add(score)
-        list.sortDescending()
+    fun logScore(score: Int) {
+        scores.add(score)
+        scores.sortDescending()
 
-        while (list.size > max) {
-            list.removeAt(list.size - 1)
+        while (scores.size > MAX_SCORES) {
+            scores.removeAt(scores.lastIndex)
         }
 
         saveList()
     }
 
-    fun addScore(score: Int) {
-        if (list.size < max) {
-            logScore(score)
-            return
-        }
-
-        val minScore = list.min() ?: return
-
-        if (score > minScore) {
-            logScore(score)
-        }
-    }
-
     private fun loadList() {
-        list.clear()
+        scores.clear()
 
         context?.apply {
-
-            val inputFile = File(filesDir, fileName)
+            val inputFile = File(filesDir, FILENAME)
             if (!inputFile.exists()) {
                 return
             }
 
-            Scanner(openFileInput(fileName)).use {
+            Scanner(openFileInput(FILENAME)).use {
                 while (it.hasNextInt()) {
-                    list.add(it.nextInt())
+                    scores.add(it.nextInt())
                 }
             }
-
         }
     }
 
     private fun saveList() {
         context?.apply {
-
-            PrintWriter(openFileOutput(fileName, Context.MODE_PRIVATE)).use {
-                for (score in list) {
+            PrintWriter(openFileOutput(FILENAME, Context.MODE_PRIVATE)).use {
+                for (score in scores) {
                     it.println(score)
                 }
             }
