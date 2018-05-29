@@ -3,11 +3,12 @@ package co.zsmb.pi
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk15.listeners.onClick
 import kotlin.LazyThreadSafetyMode.NONE
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         ScoreKeeper.setContext(applicationContext)
@@ -33,10 +32,11 @@ class MainActivity : AppCompatActivity() {
         resetState(restoreIndex)
     }
 
-    private fun Int.toCharValue() = this.toChar() + '0'.toInt()
-
     private fun setupButtons() {
         val buttons = arrayOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
+
+        fun Int.toCharValue() = this.toChar() + '0'.toInt()
+
         buttons.forEachIndexed { index, button ->
             button.onClick { inputDigit(index.toCharValue()) }
         }
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 positiveButton(getString(R.string.OK)) { resetState() }
-                onCancel { resetState() }
+                onCancelled { resetState() }
             }
         }.show()
 
