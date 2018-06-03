@@ -1,10 +1,12 @@
 package co.zsmb.pi
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk15.listeners.onClick
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun inputDigit(digit: Char) {
         val indexToTest = indexReached + 1
         val correctDigit = pi[indexToTest]
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             indexReached++
             tvPi.append(digit.toString())
             tvDigitCount.text = indexReached.toString()
+            scrollView.fullScroll(View.FOCUS_DOWN)
         }
         else {
             gameOver(digit, correctDigit)
